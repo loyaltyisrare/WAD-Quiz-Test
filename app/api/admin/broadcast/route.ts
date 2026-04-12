@@ -16,8 +16,8 @@ export async function POST(request: Request) {
     // For this architecture replication, we'll iterate and send
     const results = await Promise.allSettled(
       leads
-        .filter(l => l.email)
-        .map(l => sendBroadcastEmail(l.email, subject, content, l.firstName))
+        .filter((l: any) => l.email)
+        .map((l: any) => sendBroadcastEmail(l.email, subject, content, l.firstName))
     );
 
     const successful = results.filter(r => r.status === 'fulfilled').length;
