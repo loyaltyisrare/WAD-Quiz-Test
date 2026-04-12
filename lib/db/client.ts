@@ -63,12 +63,20 @@ async function initPostgresDb() {
   `;
 }
 
-export async function saveLeadToDb(lead: SessionLead & { 
-  score: number; 
-  recordedAt: string; 
-  scorePercentage?: number;
-  sessionId: string;
-}) {
+export async function saveLead(leadData: any) {
+  const { lead, score, sessionId, tracking, recordedAt } = leadData;
+  const leadObj: SessionLead & { 
+    score: number; 
+    recordedAt: string; 
+    scorePercentage?: number;
+    sessionId: string;
+  } = {
+    ...lead,
+    score: score,
+    recordedAt: recordedAt || new Date().toISOString(),
+    sessionId: sessionId
+  };
+
   if (process.env.POSTGRES_URL || process.env.DATABASE_URL) {
     try {
       await initPostgresDb();
@@ -80,13 +88,13 @@ export async function saveLeadToDb(lead: SessionLead & {
           consent, score, score_percentage, session_id, recorded_at,
           scheduled_email_at
         ) VALUES (
-          ${lead.firstName}, ${lead.email}, ${lead.phone || ''}, ${lead.socialHandle || ''}, 
-          ${lead.gender || ''}, ${lead.age || ''}, ${lead.consent}, 
-          ${lead.score}, ${scorePercentage}, ${lead.sessionId}, ${new Date(lead.recordedAt).toISOString()},
+          ${leadObj.firstName}, ${leadObj.email}, ${leadObj.phone || ''}, ${leadObj.socialHandle || ''}, 
+          ${leadObj.gender || ''}, ${leadObj.age || ''}, ${leadObj.consent}, 
+          ${leadObj.score}, ${scorePercentage}, ${leadObj.sessionId}, ${new Date(leadObj.recordedAt).toISOString()},
           NOW() + INTERVAL '3 minutes'
         )
       `;
-      return lead;
+      return leadObj;
     } catch (error) {
       console.error("Database Error (Falling back to JSON):", error);
     }
@@ -97,9 +105,9 @@ export async function saveLeadToDb(lead: SessionLead & {
     await initLocalDb();
     const content = await fs.readFile(DB_PATH, 'utf-8');
     const leads = JSON.parse(content);
-    leads.push(lead);
+    leads.push(leadObj);
     await fs.writeFile(DB_PATH, JSON.stringify(leads, null, 2));
-    return lead;
+    return leadObj;
   } catch (err) {
     console.error("Local DB Fallback Error:", err);
     throw err;

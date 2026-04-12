@@ -11,15 +11,18 @@ export async function POST(request: Request) {
     }
 
     const saved = await saveLead({
-      email: lead.email,
-      firstName: lead.firstName,
-      gender: lead.gender,
-      age: lead.age,
-      socialHandle: lead.socialHandle,
-      phone: lead.phone,
-      quizScore: score,
+      lead: {
+        email: lead.email,
+        firstName: lead.firstName,
+        gender: lead.gender,
+        age: lead.age,
+        socialHandle: lead.socialHandle,
+        phone: lead.phone,
+        consent: lead.consent || true,
+      },
+      score: score,
       sessionId: sessionId,
-      metadata: {
+      tracking: {
         ...tracking,
         userAgent: request.headers.get("user-agent"),
         ip: request.headers.get("x-forwarded-for") || "unknown"
