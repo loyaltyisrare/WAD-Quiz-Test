@@ -42,7 +42,7 @@ export function LeadGateForm({ onSubmit }: LeadGateFormProps) {
     const result = leadSchema.safeParse(payload);
     
     if (!result.success) {
-      setErrors(result.error.errors.map((issue) => issue.message));
+      setErrors(result.error.issues.map((issue) => issue.message));
       return;
     }
 
