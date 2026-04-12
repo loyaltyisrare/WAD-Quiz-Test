@@ -1,12 +1,26 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import { AdminLayout } from "@/components/admin/AdminLayout";
 import { AnalyticsDashboard } from "@/components/admin/AnalyticsDashboard";
 import { Users, Filter, Download, Trash2, Calendar, Hash } from "lucide-react";
 
 export default function AdminDashboardPage() {
+  return (
+    <Suspense fallback={
+      <AdminLayout>
+        <div className="h-screen flex items-center justify-center">
+          <div className="w-8 h-8 border-2 border-brand-red border-t-transparent rounded-full animate-spin" />
+        </div>
+      </AdminLayout>
+    }>
+      <AdminDashboardContent />
+    </Suspense>
+  );
+}
+
+function AdminDashboardContent() {
   const searchParams = useSearchParams();
   const view = searchParams.get("view") || "analytics";
   const [leads, setLeads] = useState<any[]>([]);
