@@ -82,7 +82,7 @@ export async function saveLead(leadData: any) {
       await initPostgresDb();
       const maxScore = 24; // WAD Max Score
       const scorePercentage = lead.scorePercentage || Math.round((lead.score / maxScore) * 100);
-      await sql`
+      const { rows } = await sql`
         INSERT INTO leads (
           first_name, email, phone, instagram_handle, gender, age, 
           consent, score, score_percentage, session_id, recorded_at,
@@ -93,8 +93,9 @@ export async function saveLead(leadData: any) {
           ${leadObj.score}, ${scorePercentage}, ${leadObj.sessionId}, ${new Date(leadObj.recordedAt).toISOString()},
           NOW() + INTERVAL '3 minutes'
         )
+        RETURNING id
       `;
-      return leadObj;
+      return { ...leadObj, id: rows[0].id };
     } catch (error) {
       console.error("Database Error (Falling back to JSON):", error);
     }
@@ -105,9 +106,10 @@ export async function saveLead(leadData: any) {
     await initLocalDb();
     const content = await fs.readFile(DB_PATH, 'utf-8');
     const leads = JSON.parse(content);
-    leads.push(leadObj);
+    const newLead = { ...leadObj, id: Date.now() }; // Mock ID for local
+    leads.push(newLead);
     await fs.writeFile(DB_PATH, JSON.stringify(leads, null, 2));
-    return leadObj;
+    return newLead;
   } catch (err) {
     console.error("Local DB Fallback Error:", err);
     throw err;
