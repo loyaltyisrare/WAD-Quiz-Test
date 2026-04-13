@@ -6,7 +6,13 @@ import { BackgroundSystem } from "@/components/BackgroundSystem";
 export const metadata: Metadata = {
   title: "Women Are Drugs | What Are You Really Addicted To?",
   description: "Six quick questions to reveal whether you’re drawn to a woman’s depth, power, and rarity, or just the surface.",
-  viewport: "width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0",
+};
+
+export const viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: 0,
 };
 
 export default function RootLayout({
