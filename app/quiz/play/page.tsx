@@ -13,7 +13,7 @@ import { shuffleArray } from "@/lib/utils/array";
 
 export default function QuizPlayPage() {
   const router = useRouter();
-  const [[currentIndex, direction], setPage] = useState([0, 0]);
+  const [currentIndex, setCurrentIndex] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
 
   // Shuffle answers for each question once per session
@@ -27,7 +27,6 @@ export default function QuizPlayPage() {
   const question = useMemo(() => shuffledQuestions[currentIndex], [shuffledQuestions, currentIndex]);
 
   useEffect(() => {
-    // Initialize session
     getSessionState();
   }, []);
 
@@ -43,68 +42,41 @@ export default function QuizPlayPage() {
       markQuizCompleted();
       const state = getSessionState();
       
-      // If we already have lead info (e.g. returning user), go to result
       if (state.lead) {
         router.push("/quiz/result");
         return;
       }
-
-      // Otherwise go to lead capture
       router.push("/quiz/lead");
       return;
     }
 
-    // Advance to next question
-    setPage([currentIndex + 1, 1]);
-    
-    // Selection lockout (500ms)
-    setTimeout(() => setIsTransitioning(false), 500);
+    // Small delay for selection state feedback before transition
+    setTimeout(() => {
+      setCurrentIndex(prev => prev + 1);
+      setIsTransitioning(false);
+    }, 400);
   }
 
   function handleBack() {
     if (currentIndex > 0) {
-      setPage([currentIndex - 1, -1]);
+      setCurrentIndex(prev => prev - 1);
     } else {
       router.push("/");
     }
   }
 
-  const variants = {
-    enter: (dir: number) => ({
-      x: dir > 0 ? 50 : -50,
-      opacity: 0,
-    }),
-    center: {
-      zIndex: 1,
-      x: 0,
-      opacity: 1,
-    },
-    exit: (dir: number) => ({
-      zIndex: 0,
-      x: dir < 0 ? 50 : -50,
-      opacity: 0,
-    }),
-  };
-
   return (
     <ScreenFrame>
-      <div className="mb-4 relative z-10">
-        <ProgressBar current={currentIndex + 1} total={shuffledQuestions.length} />
-      </div>
+      <ProgressBar current={currentIndex + 1} total={shuffledQuestions.length} />
       
-      <div className="relative overflow-hidden min-h-[450px]">
-        <AnimatePresence initial={false} custom={direction} mode="popLayout">
+      <div className="relative min-h-[480px]">
+        <AnimatePresence mode="wait">
           <motion.div
             key={currentIndex}
-            custom={direction}
-            variants={variants}
-            initial="enter"
-            animate="center"
-            exit="exit"
-            transition={{
-              x: { type: "spring", stiffness: 300, damping: 30 },
-              opacity: { duration: 0.2 },
-            }}
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            transition={{ duration: 0.3 }}
             className={`w-full ${isTransitioning ? "pointer-events-none" : ""}`}
           >
             <QuestionCard question={question} onSelect={handleSelect} disabled={isTransitioning} />
@@ -115,10 +87,10 @@ export default function QuizPlayPage() {
       <div className="mt-8 flex justify-center">
         <button 
           onClick={handleBack} 
-          className="flex items-center gap-2 text-sm text-brand-accent/40 hover:text-white transition-colors py-2 px-4 rounded-full hover:bg-white/5"
+          className="flex items-center gap-2 text-[11px] uppercase tracking-[0.2em] text-brand-muted hover:text-brand-accent transition-colors py-2 px-4"
           aria-label="Go back"
         >
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
             <path d="m15 18-6-6 6-6"/>
           </svg>
           Previous

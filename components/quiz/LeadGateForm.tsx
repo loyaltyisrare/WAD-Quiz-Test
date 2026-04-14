@@ -14,8 +14,6 @@ export function LeadGateForm({ onSubmit }: LeadGateFormProps) {
 
   const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     let val = e.target.value.replace(/[^\d+]/g, '');
-    
-    // Simple US formatting for example
     if (!val.startsWith('+') && val.length <= 10) {
       const match = val.match(/^(\d{0,3})(\d{0,3})(\d{0,4})$/);
       if (match) {
@@ -51,79 +49,69 @@ export function LeadGateForm({ onSubmit }: LeadGateFormProps) {
   }
 
   return (
-    <form className="glass-card p-6 md:p-8 rounded-3xl space-y-5 border-brand-accent/10" onSubmit={handleSubmit} noValidate>
+    <form className="panel space-y-4" onSubmit={handleSubmit} noValidate>
       <div className="text-center pb-2">
-        <h1 className="text-2xl md:text-3xl font-bold leading-tight">Your result is ready.</h1>
-        <p className="text-sm md:text-md text-brand-accent/60 mt-2 leading-relaxed">
-          Enter your info to unlock your result and get access to future drops, exclusives, and special offers.
-        </p>
-      </div>
-
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div className="space-y-1 relative">
-          <label className="text-[11px] uppercase tracking-widest text-brand-accent/40 pl-1">Experience</label>
-          <div className="relative">
-            <select name="gender" required className="w-full rounded-xl border border-white/10 bg-black/40 px-4 py-3 text-white appearance-none" defaultValue="">
-              <option value="" disabled>Status...</option>
-              <option value="Woman">Woman</option>
-              <option value="Man">Man</option>
-              <option value="Other">Other</option>
-            </select>
-            <div className="absolute inset-y-0 right-3 flex items-center pointer-events-none opacity-50">
-               <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="m6 9 6 6 6-6"/></svg>
-            </div>
-          </div>
-        </div>
-
-        <div className="space-y-1 relative">
-          <label className="text-[11px] uppercase tracking-widest text-brand-accent/40 pl-1">Age</label>
-          <input name="age" type="number" required placeholder="Age" className="w-full rounded-xl border border-white/10 bg-black/40 px-4 py-3 text-white placeholder:text-white/20" />
-        </div>
+        <h1 className="headline text-[28px] leading-tight">Before we reveal your score...</h1>
+        <p className="text-[15px] leading-relaxed text-brand-muted mt-2">Drop your details to unlock your profile.</p>
       </div>
 
       <div className="space-y-1 relative">
-        <label className="text-[11px] uppercase tracking-widest text-brand-accent/40 pl-1">Personal Details</label>
-        <div className="space-y-3">
-          <input name="firstName" placeholder="First Name" className="w-full rounded-xl border border-white/10 bg-black/40 px-4 py-3 text-white placeholder:text-white/20" />
-          <input name="email" type="email" placeholder="Email Address" className="w-full rounded-xl border border-white/10 bg-black/40 px-4 py-3 text-white placeholder:text-white/20" />
-          <input name="socialHandle" placeholder="Instagram @handle" className="w-full rounded-xl border border-white/10 bg-black/40 px-4 py-3 text-white placeholder:text-white/20" />
-          <input 
-            name="phone" 
-            value={phone}
-            onChange={handlePhoneChange}
-            placeholder="Phone (Optional - Free gift 🎁)" 
-            className="w-full rounded-xl border border-white/10 bg-black/40 px-4 py-3 text-white placeholder:text-white/20" 
-          />
+        <label className="text-[13px] text-brand-muted pl-1">Helps us find out if these habits differ based on age, how old are you?</label>
+        <div className="relative">
+          <input name="age" type="number" required placeholder="Enter your age" className="w-full rounded-xl border border-brand-line bg-black/30 px-4 py-3 text-brand-text placeholder:text-brand-muted/70 pr-8" />
+          <span className="absolute top-2 right-3 text-brand-red font-black text-xs leading-none">*</span>
         </div>
       </div>
 
-      <div className="pt-2">
-        <label className="flex gap-3 text-xs text-brand-accent/50 items-start cursor-pointer group">
-          <input type="checkbox" name="consent" defaultChecked className="mt-1 accent-brand-red w-4 h-4 rounded border-white/20 bg-black/40" />
-          <span className="group-hover:text-brand-accent transition-colors">
-            By submitting, you agree to receive follow-up messages, brand updates, and special offers.
-          </span>
+      <div className="relative">
+        <input name="firstName" required placeholder="First name" className="w-full rounded-xl border border-brand-line bg-black/30 px-4 py-3 text-brand-text placeholder:text-brand-muted/70 pr-8" />
+        <span className="absolute top-2 right-3 text-brand-red font-black text-xs leading-none">*</span>
+      </div>
+
+      <div className="relative">
+        <input name="email" type="email" required placeholder="Email" className="w-full rounded-xl border border-brand-line bg-black/30 px-4 py-3 text-brand-text placeholder:text-brand-muted/70 pr-8" />
+        <span className="absolute top-2 right-3 text-brand-red font-black text-xs leading-none">*</span>
+      </div>
+
+      <input
+        name="socialHandle"
+        placeholder="Instagram or social media handle"
+        className="w-full rounded-xl border border-brand-line bg-black/30 px-4 py-3 text-brand-text placeholder:text-brand-muted/70"
+      />
+
+      <input 
+        name="phone" 
+        value={phone}
+        onChange={handlePhoneChange}
+        placeholder="Phone number (Optional - Gift 🎁)" 
+        className="w-full rounded-xl border border-brand-line bg-black/30 px-4 py-3 text-brand-text placeholder:text-brand-muted/70" 
+      />
+
+      <div className="flex justify-between items-center">
+        <label className="flex gap-2 text-[13px] text-brand-muted items-center cursor-pointer">
+          <input type="checkbox" name="consent" defaultChecked className="mt-0.5" />
+          <span>I agree to the terms.</span>
         </label>
+        <span className="text-[10px] text-brand-muted/60 flex items-center gap-1 uppercase tracking-tighter">
+          <span className="text-brand-red font-black text-xs">*</span> Required fields
+        </span>
       </div>
 
       {errors.length > 0 && (
-        <div className="bg-red-500/10 border border-red-500/20 p-4 rounded-xl">
-          <ul className="space-y-1 text-xs text-red-400">
-            {errors.map((error) => (
-              <li key={error} className="flex gap-2">
-                <span className="opacity-50">•</span> {error}
-              </li>
-            ))}
-          </ul>
-        </div>
+        <ul className="space-y-1 text-xs text-red-400 bg-red-500/10 p-4 rounded-xl border border-red-500/20">
+          {errors.map((error) => (
+            <li key={error}>• {error}</li>
+          ))}
+        </ul>
       )}
 
-      <button
+      <button 
         type="submit"
-        className="w-full bg-[#d6d3c1] text-[#090909] py-4 px-6 rounded-full font-bold text-lg transition-all hover:scale-[1.02] active:scale-[0.98] shadow-lg shadow-[#d6d3c1]/10 mt-2"
+        className="w-full h-12 bg-brand-accent text-brand-black text-base font-semibold rounded-xl hover:opacity-95 transition-all active:scale-[0.98]"
       >
         Reveal My Result
       </button>
     </form>
   );
 }
+

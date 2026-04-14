@@ -50,9 +50,8 @@ export default function LeadPage() {
 
   return (
     <ScreenFrame>
-      <div className="px-4">
-        <LeadGateForm onSubmit={handleLeadSubmit} />
-      </div>
+      <LeadGateForm onSubmit={handleLeadSubmit} />
     </ScreenFrame>
   );
 }
+

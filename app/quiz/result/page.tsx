@@ -40,11 +40,11 @@ export default function ResultPage() {
 
   return (
     <ScreenFrame>
-      <div className="px-4 space-y-8 max-w-lg mx-auto pb-12">
+      <div className="space-y-8 pb-12">
         <motion.div
-          initial={{ opacity: 0, scale: 0.95 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.5 }}
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4 }}
         >
           <ResultSummary 
             firstName={state.lead?.firstName} 
@@ -54,12 +54,12 @@ export default function ResultPage() {
         </motion.div>
 
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 1 }}
+          transition={{ duration: 0.4, delay: 0.2 }}
         >
           <ShareActions 
-            shareText={`I just took the Women Are Drugs addiction test and I am ${band.label}! Find out what you're addicted to.`}
+            shareText={`I just took the Women Are Drugs assessment and I am ${band.label}! Discover your profile here.`}
             score={score}
             bandLabel={band.label}
             bandColor={band.color}
@@ -70,14 +70,14 @@ export default function ResultPage() {
         <motion.div 
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ delay: 1.5 }}
+          transition={{ delay: 0.8 }}
           className="text-center"
         >
           <button
             onClick={handleRetake}
-            className="text-brand-accent/40 text-sm hover:text-white transition-colors underline underline-offset-4"
+            className="text-brand-muted text-[11px] uppercase tracking-[0.2em] hover:text-brand-accent transition-colors underline underline-offset-4"
           >
-            Retake the addiction test
+            Retake the assessment
           </button>
         </motion.div>
       </div>

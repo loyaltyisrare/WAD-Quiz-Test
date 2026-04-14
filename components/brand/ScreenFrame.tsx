@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
@@ -10,41 +12,29 @@ interface ScreenFrameProps {
 
 export const ScreenFrame: React.FC<ScreenFrameProps> = ({ children, showLogo = true }) => {
   return (
-    <div className="flex flex-col min-h-screen max-w-2xl mx-auto pb-12">
+    <div className="page-shell">
       {showLogo && (
-        <header className="p-6 flex justify-center">
+        <div className="mb-8 flex justify-center">
           <Link href="/">
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              className="relative w-32 h-10"
+              className="relative"
             >
               <Image
-                src="/brand/logo/wad-logo.png"
+                src="/brand/logo/wad-logo2.png"
                 alt="WAD"
-                fill
-                className="object-contain"
+                width={320}
+                height={80}
+                className="h-20 w-auto object-contain drop-shadow-[0_0_15px_rgba(255,255,255,0.1)]"
                 priority
               />
             </motion.div>
           </Link>
-        </header>
+        </div>
       )}
       
-      <div className="flex-grow flex flex-col justify-center">
-        {children}
-      </div>
-
-      <footer className="mt-8 px-6 text-center">
-        <div className="relative w-24 h-8 mx-auto opacity-30 grayscale hover:opacity-100 transition-opacity">
-          <Image
-            src="/brand/footer logo/wad-meaningv2w.png"
-            alt="Meaning"
-            fill
-            className="object-contain"
-          />
-        </div>
-      </footer>
+      {children}
     </div>
   );
 };

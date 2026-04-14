@@ -1,5 +1,4 @@
 import { QuizResultBand } from "@/lib/quiz/types";
-import { motion } from "framer-motion";
 
 interface ResultSummaryProps {
   firstName?: string;
@@ -12,50 +11,33 @@ export function ResultSummary({ firstName, score, band, maxScore = 24 }: ResultS
   const percentage = Math.round((score / maxScore) * 100);
 
   return (
-    <section className="glass-card p-8 md:p-12 rounded-[2.5rem] text-center space-y-6 border-brand-accent/5 relative overflow-hidden">
-      {/* Background Glow */}
-      <div 
-        className="absolute inset-0 opacity-10 blur-[100px] pointer-events-none"
-        style={{ backgroundColor: band.color }}
-      />
-      
-      <p className="text-[11px] font-bold uppercase tracking-[0.3em] text-brand-accent/40">Your Personality Profile</p>
-      
-      <motion.div
-        initial={{ opacity: 0, scale: 0.9 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ delay: 0.2, type: "spring" }}
-      >
-        <h1 className="text-3xl md:text-5xl font-bold leading-tight tracking-tight">
-          {firstName ? `${firstName}, you are` : "You are"} <br/>
-          <span style={{ color: band.color }} className="glow-text">{band.label}</span>
+    <section className="panel space-y-6 text-center">
+      <div className="space-y-1">
+        <span className="text-[11px] uppercase tracking-[0.2em] text-brand-muted">Your assessment is complete</span>
+        <h1 className="headline text-[32px] md:text-[40px] leading-tight break-words">
+          {firstName ? firstName : "You"} are: <br/> 
+          <span className="text-brand-accent">{band.label}</span>
         </h1>
-      </motion.div>
-      
-      <div 
-        className="inline-flex flex-col items-center justify-center p-8 rounded-full border-2 bg-black/40 aspect-square min-w-[160px]"
-        style={{ borderColor: `${band.color}33` }}
-      >
-        <motion.p 
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.5, duration: 1 }}
-          className="text-6xl font-black tracking-tighter"
-          style={{ color: band.color }}
-        >
+      </div>
+
+      <div className="flex flex-col items-center py-4">
+        <div className="text-[96px] font-black leading-none tracking-tighter text-brand-accent selection:bg-brand-accent selection:text-brand-black">
           {percentage}%
-        </motion.p>
-        <p className="text-[10px] font-bold uppercase tracking-widest opacity-40 mt-1">Match</p>
+        </div>
+        <p className="text-[13px] uppercase tracking-[0.3em] text-brand-muted mt-2">Correlation Match</p>
+      </div>
+
+      <div className="pt-2 border-t border-brand-line/50">
+        <p className="text-[15px] leading-relaxed text-brand-text max-w-sm mx-auto">
+          {band.tagline}
+        </p>
       </div>
       
-      <motion.p 
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.8 }}
-        className="text-lg md:text-xl leading-relaxed text-brand-accent/70 max-w-md mx-auto"
-      >
-        {band.tagline}
-      </motion.p>
+      <div className="pt-2">
+         <p className="text-[11px] text-brand-muted/60 italic">
+           Detailed breakdown will be sent to your email.
+         </p>
+      </div>
     </section>
   );
 }

@@ -3,47 +3,38 @@
 @tailwind utilities;
 
 :root {
-  --background: #090909;
-  --foreground: #f4f3ef;
-  --brand-red: #f33939;
-  --brand-accent: #d9d3c5;
+  color-scheme: dark;
 }
 
 body {
-  background-color: var(--background);
-  color: var(--foreground);
+  min-height: 100vh;
+  background: #000000;
+  color: #F4F3EF;
+  overflow-x: hidden;
+  overscroll-behavior-y: none;
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 
-/* Custom transitions and utility classes */
+@layer components {
+  .page-shell {
+    @apply mx-auto min-h-screen w-full max-w-md px-5 pb-12 pt-8;
+  }
+
+  .panel {
+    @apply rounded-2xl border border-brand-line bg-brand-surface/70 p-5 shadow-glow backdrop-blur;
+  }
+
+  .headline {
+    @apply text-3xl font-semibold leading-tight tracking-tight text-brand-text;
+  }
+
+  .subtle {
+    @apply text-sm leading-relaxed text-brand-muted;
+  }
+}
+
+/* Maintain WAD-specific utilities */
 .selection-lockout {
   pointer-events: none;
 }
 
-.glass-card {
-  background: rgba(18, 18, 18, 0.7);
-  backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.45);
-}
-
-.glow-text {
-  text-shadow: 0 0 15px rgba(243, 57, 57, 0.4);
-}
-
-.glow-border {
-  border-color: rgba(243, 57, 57, 0.5);
-  box-shadow: 0 0 10px rgba(243, 57, 57, 0.2);
-}
-
-@layer utilities {
-  .animate-float {
-    animation: float 6s ease-in-out infinite;
-  }
-}
-
-@keyframes float {
-  0% { transform: translateY(0px); }
-  50% { transform: translateY(-10px); }
-  100% { transform: translateY(0px); }
-}

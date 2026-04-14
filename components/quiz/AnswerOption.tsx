@@ -1,30 +1,27 @@
 import React from "react";
-import { motion } from "framer-motion";
 import { QuizAnswerOption } from "@/lib/quiz/types";
 
 interface AnswerOptionProps {
   option: QuizAnswerOption;
   onSelect: (key: string) => void;
+  index: number;
   disabled?: boolean;
 }
 
-export const AnswerOption: React.FC<AnswerOptionProps> = ({ option, onSelect, disabled }) => {
+export const AnswerOption: React.FC<AnswerOptionProps> = ({ option, onSelect, index, disabled }) => {
+  const label = ["A", "B", "C", "D"][index];
+  
   return (
-    <motion.button
-      whileHover={!disabled ? { scale: 1.02, backgroundColor: "rgba(214, 211, 193, 0.1)" } : {}}
-      whileTap={!disabled ? { scale: 0.98 } : {}}
-      disabled={disabled}
+    <button
       onClick={() => onSelect(option.key)}
-      className={`relative w-full text-left p-4 md:p-6 rounded-2xl glass-card transition-all group flex items-start gap-4 ${
-        disabled ? "opacity-50 cursor-not-allowed" : "hover:border-brand-accent/40 cursor-pointer"
-      }`}
+      disabled={disabled}
+      className="w-full rounded-xl border border-brand-line bg-black/35 px-4 py-4 text-left text-sm text-brand-text transition hover:border-brand-accent hover:bg-black/50 disabled:opacity-50 disabled:cursor-not-allowed group"
+      type="button"
     >
-      <div className="flex-shrink-0 w-8 h-8 rounded-full border border-brand-accent/30 flex items-center justify-center font-bold text-sm text-brand-accent/60 group-hover:border-brand-accent/60 group-hover:text-brand-accent transition-colors">
-        {option.key}
-      </div>
-      <span className="text-lg md:text-xl font-medium leading-normal text-white/90 group-hover:text-white transition-colors">
-        {option.text}
+      <span className="mb-1 block text-[11px] uppercase tracking-[0.16em] text-brand-muted group-hover:text-brand-accent transition-colors">
+        {label}
       </span>
-    </motion.button>
+      <span className="block leading-relaxed">{option.text}</span>
+    </button>
   );
 };

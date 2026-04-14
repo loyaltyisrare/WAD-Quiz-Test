@@ -23,17 +23,17 @@ export default function SocialResultPage() {
 
   return (
     <ScreenFrame>
-      <div className="px-4 space-y-8 max-w-lg mx-auto pb-12">
+      <div className="space-y-8 pb-12">
         <div className="text-center py-2">
-            <span className="text-[10px] font-black uppercase tracking-[0.4em] text-brand-red animate-pulse">
+            <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-brand-red animate-pulse">
                 Recording Final Result
             </span>
         </div>
 
         <motion.div
-           initial={{ opacity: 0, scale: 0.95 }}
-           animate={{ opacity: 1, scale: 1 }}
-           transition={{ duration: 0.5 }}
+           initial={{ opacity: 0, y: 10 }}
+           animate={{ opacity: 1, y: 0 }}
+           transition={{ duration: 0.4 }}
         >
           <ResultSummary 
             score={score} 
@@ -42,12 +42,12 @@ export default function SocialResultPage() {
         </motion.div>
 
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 1 }}
+          transition={{ duration: 0.4, delay: 0.2 }}
         >
           <ShareActions 
-            shareText={`My result: ${band.label}!`}
+            shareText={`My result: ${band.label}! Discover your addiction profile.`}
             score={score}
             bandLabel={band.label}
             bandColor={band.color}
@@ -57,3 +57,4 @@ export default function SocialResultPage() {
     </ScreenFrame>
   );
 }
+

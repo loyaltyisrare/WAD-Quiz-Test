@@ -1,5 +1,4 @@
 import React from "react";
-import { motion } from "framer-motion";
 
 interface ProgressBarProps {
   current: number;
@@ -10,17 +9,15 @@ export const ProgressBar: React.FC<ProgressBarProps> = ({ current, total }) => {
   const percentage = (current / total) * 100;
 
   return (
-    <div className="w-full max-w-md mx-auto mb-8 px-4">
-      <div className="flex justify-between text-xs font-bold uppercase tracking-widest text-brand-accent/50 mb-2">
-        <span>Question {current} of {total}</span>
-        <span>{Math.round(percentage)}%</span>
+    <div className="w-full max-w-sm mx-auto mb-6 px-1">
+      <div className="flex justify-between text-[11px] font-medium uppercase tracking-[0.2em] text-brand-muted mb-3">
+        <span>Assessment Progress</span>
+        <span>{current} / {total}</span>
       </div>
-      <div className="h-1.5 w-full bg-white/10 rounded-full overflow-hidden">
-        <motion.div
-          initial={{ width: 0 }}
-          animate={{ width: `${percentage}%` }}
-          transition={{ type: "spring", stiffness: 100, damping: 20 }}
-          className="h-full bg-brand-red shadow-[0_0_10px_rgba(243,57,57,0.5)]"
+      <div className="h-[3px] w-full bg-brand-line/30 rounded-full overflow-hidden">
+        <div
+          style={{ width: `${percentage}%` }}
+          className="h-full bg-brand-accent transition-all duration-500 ease-out"
         />
       </div>
     </div>
